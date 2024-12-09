@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home - Search</title>
+</head>
+<body>
+    <h1>Search for a Company</h1>
+    <form method="GET" action="process.html ">
+        <label>
+            <input type="radio" name="searchType" value="ticker" required>
+            Search by Stock Ticker
+        </label><br>
+        <label>
+            <input type="radio" name="searchType" value="name" required>
+            Search by Company Name
+        </label><br>
+        <input type="text" name="query" placeholder="Enter your query" required>
+        <button type="submit">Search</button>
+    </form>
+</body>
+</html>
