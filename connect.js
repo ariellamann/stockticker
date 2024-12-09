@@ -2,7 +2,9 @@ const { MongoClient } = require('mongodb');
 const fs = require('fs'); 
 const readline = require('readline'); 
 
-const uri = "mongodb+srv://ariellamann:abc@cluster0.uzio5.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const uri = process.env.MONGODB_URI || "mongodb://localhost:27017/Stock";
+
+//const uri = "mongodb+srv://ariellamann:abc@cluster0.uzio5.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 const filePath = 'companies-1.csv'; 
 
 async function run() {
