@@ -3,7 +3,7 @@ const { MongoClient } = require('mongodb');
 const path = require('path');
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 //const uri = "mongodb+srv://ariellamann:abc@cluster0.uzio5.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 const uri = process.env.MONGODB_URI || "mongodb://localhost:27017/Stock";
 
