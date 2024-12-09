@@ -4,7 +4,9 @@ const path = require('path');
 
 const app = express();
 const port = 3000;
-const uri = "mongodb+srv://ariellamann:abc@cluster0.uzio5.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+//const uri = "mongodb+srv://ariellamann:abc@cluster0.uzio5.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const uri = process.env.MONGODB_URI || "mongodb://localhost:27017/Stock";
+
 
 app.use(express.static(__dirname));
 app.get('/', (req, res) => {
