@@ -8,6 +8,7 @@ const port = process.env.PORT || 3000;
 const uri = process.env.MONGODB_URI || "mongodb://localhost:27017/Stock";
 
 
+
 app.use(express.static(__dirname));
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'home.html')); // Serve the home.html file from the same directory
