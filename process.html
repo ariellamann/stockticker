@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Results</title>
+</head>
+<body>
+    <h1>Search Results</h1>
+    <div id="results"></div>
+
+    <script>
+        // Extract query parameters from the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const query = urlParams.get('query');
+        const searchType = urlParams.get('searchType');
+
+        // Fetch results from the server
+        fetch(`/process?query=${query}&searchType=${searchType}`)
+            .then(response => response.json())
+            .then(data => {
+                const resultsDiv = document.getElementById('results');
+                if (data.length > 0) {
+                    console.log("Search Results:");
+                    data.forEach(result => {
+                        console.log(`Name: ${result.name}, Ticker: ${result.stockTicker}, Price: ${result.latestPrice}`);
+                        resultsDiv.innerHTML += `
+                            <p>
+                                <strong>Name:</strong> ${result.name}<br>
+                                <strong>Ticker:</strong> ${result.stockTicker}<br>
+                                <strong>Price:</strong> ${result.latestPrice}
+                            </p>
+                            <hr>
+                        `;
+                    });
+                } else {
+                    resultsDiv.innerHTML = '<p>No results found.</p>';
+                    console.log("No results found.");
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+                document.getElementById('results').innerHTML = '<p>Error fetching data.</p>';
+            });
+    </script>
+</body>
+</html>
