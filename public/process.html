@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Results</title>
+</head>
+<body>
+    <h1>Search Results</h1>
+    <div id="results"></div>
+
+    <script>
+        async function fetchResults() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const query = urlParams.get('query');
+            const type = urlParams.get('type');
+    
+            if (!query || !type) {
+                document.getElementById('results').innerHTML = `<li>Invalid search query.</li>`;
+                return;
+            }
+    
+            console.log(`Searching for ${type}: ${query}`);
+    
+            try {
+                const response = await fetch(`http://localhost:3000/search?query=${encodeURIComponent(query)}&type=${encodeURIComponent(type)}`);
+                const results = await response.json();
+    
+                const resultsContainer = document.getElementById('results');
+                if (results.length > 0) {
+                    results.forEach((result) => {
+                        const listItem = document.createElement('li');
+                        listItem.innerHTML = `
+                            <strong>Name:</strong> ${result.company} <br>
+                            <strong>Ticker:</strong> ${result.ticker} <br>
+                            <strong>Price:</strong> $${result.price.toFixed(2)}
+                        `;
+                        resultsContainer.appendChild(listItem);
+                    });
+                } else {
+                    resultsContainer.innerHTML = `<li>No results found for your search.</li>`;
+                }
+            } catch (error) {
+                console.error('Error fetching results:', error);
+                document.getElementById('results').innerHTML = `<li>Error fetching results. Please try again later.</li>`;
+            }
+        }
+    
+        fetchResults();
+    </script>
+</body>
+</html>

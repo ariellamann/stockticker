@@ -1,48 +1,61 @@
 const express = require('express');
-const { MongoClient } = require('mongodb');
 const path = require('path');
+const { MongoClient } = require('mongodb');
+const cors = require('cors');
 
 const app = express();
-const port = process.env.PORT || 3000;
-//const uri = "mongodb+srv://ariellamann:abc@cluster0.uzio5.mongodb.net/Stock?retryWrites=true&w=majority&appName=Cluster0";
-const uri = process.env.MONGODB_URI || "mongodb://localhost:27017/Stock";
 
+// Middleware
+app.use(cors());
+app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public'))); // Serve static files from "public"
 
+// MongoDB Connection
+const uri = process.env.MONGO_URI || "mongodb+srv://ariellamann:abc@cluster0.mongodb.net/test?retryWrites=true&w=majority";
+const client = new MongoClient(uri);
+let db; // Store the database connection
 
-app.use(express.static(__dirname));
+async function connectToDatabase() {
+    try {
+        await client.connect();
+        db = client.db('Stock');
+        console.log('Connected to MongoDB');
+    } catch (err) {
+        console.error('MongoDB connection error:', err.message);
+    }
+}
+connectToDatabase();
+
+// Default Route (Serve Homepage)
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'home.html')); // Serve the home.html file from the same directory
+    res.sendFile(path.join(__dirname, 'public', 'home.html'));
 });
 
-// Process Page Route (Serves Data as JSON)
-app.get('/process', async (req, res) => {
-    const { query, searchType } = req.query;
+// Search Endpoint
+app.get('/search', async (req, res) => {
+    const query = req.query.query;
+    const type = req.query.type;
+
+    if (!query || !type) {
+        return res.status(400).send({ error: 'Invalid search query' });
+    }
+
+    const collection = db.collection('PublicCompanies');
+    const searchQuery = type === 'ticker'
+        ? { ticker: query.toUpperCase() }
+        : { company: { $regex: query, $options: 'i' } };
 
     try {
-        // Connect
-        const client = new MongoClient(uri);
-        await client.connect();
-        const db = client.db("Stock");
-        const collection = db.collection("PublicCompanies");
-
-        let filter = {};
-        if (searchType === 'ticker') {
-            filter = { stockTicker: query };
-        } else if (searchType === 'name') {
-            filter = { name: query };
-        }
-
-        const results = await collection.find(filter).toArray();
-        res.json(results);
-
-        await client.close(); // Close 
+        const results = await collection.find(searchQuery).toArray();
+        res.send(results);
     } catch (error) {
-        console.error("Error:", error);
-        res.status(500).send("An error occurred while processing your request.");
+        console.error('Error querying the database:', error);
+        res.status(500).send({ error: 'Error querying the database' });
     }
 });
 
 // Start the Server
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}`);
+    console.log(`Server running on port ${port}`);
 });
