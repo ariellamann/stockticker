@@ -2,10 +2,73 @@
 <html>
 <head>
     <title>Search Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        header {
+            background: #ed61dc;
+            color: white;
+            padding: 10px 15px;
+            text-align: center;
+        }
+
+        #results-container {
+            margin: 20px auto;
+            padding: 20px;
+            max-width: 800px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        p {
+            margin: 10px 0;
+        }
+
+        .result {
+            margin-bottom: 15px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #fefefe;
+        }
+
+        .result strong {
+            color: #ed61dc;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid #ddd;
+            margin: 15px 0;
+        }
+
+        .error {
+            color: red;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-    <h1>Search Results</h1>
-    <div id="results"></div>
+    <header>
+        <h1>Search Results</h1>
+    </header>
+    <div id="results-container">
+        <div id="results"></div>
+    </div>
 
     <script>
         // Extract query parameters from the URL

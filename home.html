@@ -2,20 +2,89 @@
 <html>
 <head>
     <title>Home - Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #ed61dc;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-size: 16px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            width: calc(100% - 22px);
+        }
+
+        button {
+            background: #ed61dc;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #bd17a9;
+        }
+    </style>
 </head>
 <body>
-    <h1>Search for a Company</h1>
-    <form method="GET" action="process.html">
-        <label>
-            <input type="radio" name="searchType" value="ticker" required>
-            Search by Stock Ticker
-        </label><br>
-        <label>
-            <input type="radio" name="searchType" value="name" required>
-            Search by Company Name
-        </label><br>
-        <input type="text" name="query" placeholder="Enter your query" required>
-        <button type="submit">Search</button>
-    </form>
+    <div id="container">
+        <h1>Search for a Company</h1>
+        <form method="GET" action="process.html">
+            <label>
+                <input type="radio" name="searchType" value="ticker" required>
+                Search by Stock Ticker
+            </label>
+            <label>
+                <input type="radio" name="searchType" value="name" required>
+                Search by Company Name
+            </label>
+            <input type="text" name="query" placeholder="Enter your query" required>
+            <button type="submit">Search</button>
+        </form>
+    </div>
 </body>
 </html>
